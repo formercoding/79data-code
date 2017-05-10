@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8"/>
+	<title>angularjs</title>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" src="angular-route.js"></script>
+
+	<!-- <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script> -->
+	<link rel="stylesheet" type="text/css" href="angular.css">
+</head>
+<body>
+	<div ng-controller="myController">
+		
+	</div>
+</body>
+<script type="text/javascript">
+	angular.module("app", ["ngRoute"])
+	.factory("greeter", function() {
+		return {
+			greet: function() {
+				console.log("greet");
+				return 2;
+			}
+		}
+	})
+	.controller("myController", ["$scope", "greeter", function($scope, greeter) {
+		greeter.greet();
+	}])
+	var injector = angular.injector(["ng", "app"]);
+	console.log(injector.get("greeter").greet());
+	console.log(injector.has("greeter"));
+	console.log(injector.instantiate(Cons).name);
+	console.log(injector.invoke(Cons, {names: "luo"}));
+	function Cons() {
+		this.name = "lo";
+		return this.names;
+	}
+	var con = new Cons();
+	console.log(con.name)
+</script>
+	
+</html>

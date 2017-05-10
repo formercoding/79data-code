@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8"/>
+	<title>angularjs</title>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" src="angular-route.js"></script>
+
+	<!-- <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script> -->
+	<link rel="stylesheet" type="text/css" href="angular.css">
+</head>
+<body>
+	<div ng-controller="myController">
+		{{someProperty}}
+		<button ng-click="someAction()">click me!</button>
+		<div ng-controller="childController">
+		{{someProperty}}
+			<button ng-click="childAction()">click child</button>
+		</div>
+		<input type="text" ng-model="switch">
+		<div ng-switch on="switch">
+			<h1 ng-switch-default>default</h1>
+			<h1 ng-switch-when="ari">when ari {{switch}}</h1>
+		</div>
+		<h1 ng-if="4>3">ng-if true</h1>
+		<h1 ng-if="1>2">ng-if false</h1>
+		<ul>
+			<li ng-repeat="person in people">
+				{{person.name}} live in {{person.city}}
+			</li>
+		</ul>
+		<h1 ng-bind="people" >I exists</h1>
+		<h1 ng-hide="2<1">I exists</h1>
+		<div>
+			<select ng-options="person.city for person in people" ng-model="select">
+				<option value="">choose city</option>
+			</select>
+			{{select.city}}
+		</div>
+		{{name}}
+		<input type="text" name="" ng-model="val">
+		<div my-directive my-name="xiaoxiaoluo" val="val">
+			<div controller="innerController"></div>
+		</div>
+		{{name}}
+		<div ng-view></div>
+	</div>
+</body>
+<script type="text/javascript">
+	angular.module("app", ["ngRoute"])
+	.config(["$routeProvider", function($routeProvider) { // 糖语法
+		$routeProvider
+		.when("/ww/:name", {
+			resolve: {
+				"data1": function() {
+					return "new html";
+				}
+			},
+			controller: "outerController",
+			template: "<h1>outer html {{data}}{{data1}}</h1>"
+		});
+	}])
+	.run(function($rootScope) {
+
+	})
+	.directive("myDirective", function() {
+		return {
+			restrict: "EAC",
+			priority: 100,
+			terminal: false,
+			template: "<h1>{{name}}{{city}}</h1>",
+			replace: false,
+			/*scope: {
+				name: "&sayName"
+			}*/
+			/*controller: "innerController"*/
+		}
+	})
+	.controller("myController", function($scope) {
+		$scope.someModel = "";
+		$scope.someAction = function() {
+			$scope.someProperty = "hello human";
+		};
+		$scope.people = [
+			{
+				name: "luo",
+				city: "zhengzhou"
+			},
+			{
+				name: "jun",
+				city: "hainan"
+			}
+		];
+		$scope.name = "outer scope";
+		$scope.sayName = function() {
+			return "myname";
+		}
+	})
+	.controller("childController", function($scope) {
+		$scope.childAction = function() {
+			$scope.someProperty = "hello child";
+		}
+	})
+	.controller("innerController", function($scope) {
+		$scope.city = "zhengzhou";
+		this.number = 3;
+		console.log(this.number);
+		console.log($scope.name);
+	})
+	.controller("outerController", function($scope, $routeParams) {
+		$scope.data = $routeParams;
+	})
+</script>
+	
+</html>

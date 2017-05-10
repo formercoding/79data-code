@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>shape</title>
+	<meta charset="utf-8"/>
+	<script type="text/javascript" src="d3v4/d3.js"></script>
+	<style type="text/css">
+		svg {
+			height: 500px;
+			width: 500px;
+		}
+		.wrap {
+			margin: 0 auto;
+			width: 50%;
+		}
+		path {
+			fill: none;
+			stroke: red;
+		}
+		circle {
+			fill: #fff;
+			stroke: #FF3EEA;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<svg>
+		
+		</svg>
+	</div>
+	
+</body>
+<script type="text/javascript">
+var data1 = [
+	  {"data":  1, "value":  1, "startAngle": 6.050474740247008, "endAngle": 6.166830023713296, "padAngle": 0},
+	  {"data":  1, "value":  1, "startAngle": 6.166830023713296, "endAngle": 6.283185307179584, "padAngle": 0},
+	  {"data":  2, "value":  2, "startAngle": 5.817764173314431, "endAngle": 6.050474740247008, "padAngle": 0},
+	  {"data":  3, "value":  3, "startAngle": 5.468698322915565, "endAngle": 5.817764173314431, "padAngle": 0},
+	  {"data":  5, "value":  5, "startAngle": 4.886921905584122, "endAngle": 5.468698322915565, "padAngle": 0},
+	  {"data":  8, "value":  8, "startAngle": 3.956079637853813, "endAngle": 4.886921905584122, "padAngle": 0},
+	  {"data": 13, "value": 13, "startAngle": 2.443460952792061, "endAngle": 3.956079637853813, "padAngle": 0},
+	  {"data": 21, "value": 21, "startAngle": 0.000000000000000, "endAngle": 2.443460952792061, "padAngle": 0}
+]
+var data = [1, 100, 2, 3, 5, 8, 13, 21];
+var arcs = d3.pie().sort(function(a, b) {
+	return a - b;
+})(data);
+var arcs = data1;  
+console.log(arcs);
+var arc = d3.arc()
+    .outerRadius(100)
+    .innerRadius(0)
+    .padAngle(0.03);
+d3.select("svg").append("g")
+				.attr("transform", "translate(100, 100)")
+				.selectAll("path.arc")
+				.data(arcs)
+				.enter()
+				.append("path")
+				.attr("class", "arc")
+				.attr("d", function (d) {
+					return arc(d);
+				})
+				.each(function(d) {
+					console.log(arc.centroid(d));
+				});
+d3.select("svg").append("g")
+				.attr("transform", "translate(100, 100)")
+				.selectAll("path.arc")
+				.data(arcs)
+				.enter()
+				.append("circle")
+				.attr("cx", function (d) {
+					return arc.centroid(d)[0];
+				})
+				.attr("cy", function (d) {
+					return arc.centroid(d)[1];
+				})
+				.attr("r", 3);
+</script>
+</html>

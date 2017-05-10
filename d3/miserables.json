@@ -1,0 +1,18 @@
+{
+  "nodes": [
+    {"id": "xiaoluobo", "group": 1},
+    {"id": "children3", "group": 11},
+    {"id": "children2", "group": 111},
+    {"id": "children1", "group": 1111},
+    {"id": "children4", "group": 1111}
+
+   
+  ],
+  "links": [
+    {"source": "xiaoluobo", "target": "children1", "value": "29.2%"},
+    {"source": "xiaoluobo", "target": "children3", "value": "22.2%"},
+    {"source": "xiaoluobo", "target": "children2", "value": "49.4%"},
+    {"source": "xiaoluobo", "target": "children4", "value": "49.4%"}
+
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "hotkeys-js",
+  "version": "2.0.1",
+  "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
+  "main": "dist/hotkeys.min.js",
+  "scripts": {
+    "build:min": "umd hotkeys src/hotkeys.js | uglifyjs -mc | bannerjs -o > dist/hotkeys.min.js",
+    "build:dist": "umd hotkeys src/hotkeys.js | bannerjs -m | uglifyjs -b beautify=true --comments 'all' > dist/hotkeys.js ",
+    "build": "npm run build:min && npm run build:dist",
+    "watch": "onchange 'src/hotkeys.js' -v -- npm run build "
+  },
+  "keywords": [
+    "hotkey",
+    "hotkeys",
+    "hotkeys-js",
+    "hotkeysjs",
+    "key",
+    "keys",
+    "keyboard",
+    "shortcuts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaywcjlove/hotkeys.git"
+  },
+  "devDependencies": {
+    "bannerjs": "^1.0.5",
+    "browserify": "^13.1.1",
+    "onchange": "^3.2.0",
+    "ssr": "^1.1.1",
+    "tape": "^4.6.3",
+    "tape-dom": "0.0.12",
+    "uglify-js": "^2.7.5",
+    "umd": "^3.0.1"
+  }
+}

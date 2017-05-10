@@ -1,0 +1,66 @@
+/*header #5e87b0*/
+/*font #486d93*/
+/*login */
+/*html, body {
+	height: 100%;
+	font-size: 12px;
+}*/
+/*.full-bg-1 {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: url("../img/1.jpg") no-repeat;
+	background-size: cover;
+}
+.full-bg-2 {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: url("../img/2.jpg") no-repeat;
+	background-size: cover;
+	filter:blur(100px);
+}
+.full-bg-3 {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: url("../img/3.jpg") no-repeat;
+	background-size: cover;
+	filter:blur(100px);
+}*/
+.login-title {
+	font-size: 30px;
+	line-height: 100px;
+	color: #fff;
+}
+.login-bg {
+	height: 500px;
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 5px;
+	color: #fff;
+}
+.login-form {
+	padding: 0 50px;
+}
+.login-form .title {
+	line-height: 100px;
+	font-size: 50px;
+}
+.login-form input[type="text"], .login-form input[type="password"] {
+	padding-left: 35px;
+}
+.login-form input[type="checkbox"] {
+	vertical-align: middle;
+	margin: 0;
+}
+.login-form i {
+	position: relative;
+	color: #CCCCCC;
+	font-size: 16px;
+	left: -90px;
+	top: 34px;
+}
+.login-form button {
+	width: 100%;
+	font-size: 18px;
+}

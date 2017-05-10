@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style>
+			.topNav {
+				text-align: center;
+				background: #f9f9f9;
+			}
+			.back {
+				position: fixed;
+				left: 10px;
+			}
+			#tit {
+				font-size: 18px
+			}
+		</style>
+	</head>
+	<body>
+		<div class="topNav">
+			<span class="back" onclick="history.go(-1)"></span>
+			<span id="tit">手机号登录</span>
+		</div>
+		<div class="zhuce">
+			<form id="registerform" action="../index.html" onsubmit="return submitform()" >
+				<ul>
+					<li>
+						<input type="tel" id="phone" name="phone" placeholder="输入手机号"  required pattern="[0-9]{11}" title="请输入正确的手机号" maxlength="11"}>
+					</li>
+					
+					<li>
+						<input type="password" id="psw1" name="psw1" maxlength="12" placeholder="输入密码">
+					</li>
+					
+				</ul>
+				<button class="btn" id="sub" type="submit">
+					登录
+				</button>
+				<p>
+					<a href="../html/zhuce.html">手机号快捷注册</a>
+				</p>
+			</form>
+		</div>
+		<script>
+			function submitform() {
+				var phone = document.getElementById("phone");
+				var psw1 = document.getElementById("psw1");
+					if (phone.value == "" ) {
+						alert("请输入手机号");
+						phone.focus();
+						return false;
+					} else if (psw1.value == "") {
+						alert("请输入密码");
+						psw1.focus;
+						return false;
+					} else {
+						document.getElementById("registerform").submit();
+					}
+				
+			}
+		</script>
+	</body>
+</html>

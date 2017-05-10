@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>line learn</title>
+	<script type="text/javascript" src="d3v4/d3.js"></script>
+	<style type="text/css">
+		div {
+			width: 500px;
+			height: 500px;
+			margin: 0 auto;
+			margin-top: 200px;
+		}
+		p {
+			color: red;
+		}
+		p:hover {
+			color: blue;
+		}
+		p:hover a h{
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<svg></svg>
+		<p> ppppppppp
+			<a href="">aaaaaaaaa</a>
+		</p>
+	</div>
+<script type="text/javascript">
+	/*function project(x, y) {
+	    var angle = x * Math.PI * 2 , radius = y * 50;
+	    return [600 + radius * Math.cos(angle), 510 + radius * Math.sin(angle)];
+	}*/
+
+	var data = {
+		  "name": "Eve",
+		  "children": [
+		    {
+		      "name": "Cain"
+		    },
+		    {
+		      "name": "Seth",
+		      /*"children": [
+		        {
+		          "name": "Enos"
+		        },
+		        {
+		          "name": "Noam"
+		        }
+		      ]*/
+		    },
+		    {
+		      "name": "Abel"
+		    },
+		    {
+		      "name": "Awan",
+		      /*"children": [
+		        {
+		          "name": "Enoch"
+		        }
+		      ]*/
+		    },
+		    {
+		      "name": "Azura"
+		    }
+		    
+		  ]
+	}  
+	var data = d3.hierarchy(data);
+	var cluster = d3.cluster().size([100, 100])
+	cluster(data).sort(function(a, b) { 
+                    return a.height - b.height; 
+                 });;
+	console.log(data);
+	d3.select("svg")
+		.selectAll("path")
+		.data(data.descendants().slice(1))
+		.enter()
+			.append("path")
+			.attr("stroke", "red")
+			.attr("fill", "none")
+			.attr("d", function (d) {
+				return "M" + [d.x, d.y]
+	                  + "C" + [d.x, (d.y + d.parent.y) / 2]
+	                  + " " + [d.parent.x, (d.y + d.parent.y) / 2]
+	                  + " " + [d.parent.x, d.parent.y];
+			});
+</script>
+</body>
+</html>

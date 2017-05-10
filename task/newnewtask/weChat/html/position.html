@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>title</title>
+     <link type="text/css" rel="stylesheet" href="../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/aui-slide.css" />
+    <style>
+        body{background: #fff}
+        body,header,input,ul,li{box-sizing: border-box}
+        header{width: 100%;height: 3.6em;padding: 0.8em 10px;
+        border-bottom: 1px solid #eee;
+        background: #f9f9f9}
+       #input{
+            width: 80%;
+            height: 2em;
+            line-height: 2em;
+            border:1px solid #999;
+            background: url("../image/search.png") left no-repeat;
+            background-size: auto 60%;
+        }
+        #locat{padding: 10px 20px;
+        font-size: 18px;
+        height: 3em
+        }
+        #city{  list-style-type: none;  }
+        #city li{
+            width: 80%;
+            height: 30px;
+            line-height: 30px;
+            margin: 0 auto;
+            border-bottom: 1px dashed #999;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <span class="back" onclick="history.go(-1)">返回</span>
+    <input type="search" name="search" value="" id="input"/>
+</header>
+<div id="locat">
+    <span id="weizhi">正在定位...</span>
+</div>
+<ul id="city"></ul>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-slide.js"></script>
+<script type="text/javascript" src="../jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+
+    $.getJSON("../ajax/zhengzhou.json",function(ret){
+        $.each(ret,function(i,field){
+            var str='<li>'+field.district+'</li>';
+           $("#city").append(str);
+        })
+
+    })
+
+</script>
+</html>

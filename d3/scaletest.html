@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>scaletest</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="d3v4/d3.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	var color = d3.scaleOrdinal(d3.schemeCategory20c)
+            .domain([1, 2]);
+     var arr = d3.schemeCategory20c;
+     console.log(arr);
+     setInterval(function (argument) {
+     	// body...
+	    var input = Math.ceil(Math.random() *  10);
+	    var ouput = color(input);
+	   for (var i = 0; i < arr.length; i++) {
+	   	if (ouput == arr[i]) {
+	   		var ordinal = i + 1;
+	   	}
+	   }
+	    console.log(input, ouput, ordinal);
+     }, 5000);
+    
+</script>
+</body>
+</html>

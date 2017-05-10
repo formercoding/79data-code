@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+ <html>
+
+    <head>
+
+         <title>在同一个页面中加载多个不同的jQuery版本</title>
+         <meta charset="utf-8"/>
+
+         
+
+     </head>
+
+     <body>
+
+         在同一个页面中加载多个不同的jQuery版本
+         <div class="div">dd</div>
+         <br>
+
+    </body>
+<!-- 从谷歌服务器加载jQuery最新版本-->
+
+         <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
+
+         <!-- <script type="text/javascript">
+
+             var $ = $.noConflict(true);
+
+        </script> -->
+
+        <!-- 加载jQuery1.6.2版本-->
+
+         <script type="text/javascript" src="jquery.min.js"></script>
+
+         <script type="text/javascript">
+
+             var $old = $.noConflict(true);
+
+         </script>
+
+         <script type="text/javascript">
+
+           // alert(jQuery_New("body"));
+
+            /*alert(jQuery_old("body"));
+
+            alert($("body"));
+
+            alert($.fn.jquery);
+
+            alert(jQuery_old.fn.jquery);*/
+
+            /* jQuery(function($){$('<p>我是最新的'+$.fn.jquery+'版本添加进来的。</p>').appendTo('body');});*/
+
+            /* jQuery_old(function($){$('<p>我是'+$.fn.jquery+'版本添加进来的。</
+            p>').appendTo('body');});
+*/
+        console.log($("div"));
+        console.log($old(".div").append("<div></div>"));
+         </script>
+</html>
+

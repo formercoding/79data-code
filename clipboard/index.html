@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>clip board test</title>
+</head>
+<body>
+<input type="" name="" value="wwwwwwwwwwwwwww"></input>
+<button type="button">copy tht title</button>
+</body>
+<script type="text/javascript">
+	document.getElementsByTagName("button")[0].onclick = function (argument) {
+		document.getElementsByTagName("input")[0].select()
+		document.execCommand("copy");
+	}
+</script>
+</html>

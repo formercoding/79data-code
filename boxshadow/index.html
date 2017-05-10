@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>boxshadow</title>
+	<meta charset="utf-8"/>
+	<style type="text/css">
+		#box {
+			width: 500px;
+			height: 500px;
+			margin: 50px auto;
+			border-radius: 5px;
+			/*box-shadow: h-shadow v-shadow blur spread color inset;*/
+			box-shadow:2px 2px 2px 0px #666 inset;
+		}
+		input:focus {
+			box-shadow: 0px 0px 5px 2px #666;
+			border: 0;
+			outline-offset: 0;
+			outline: none;
+		}
+		input {
+			box-shadow: 0px 0px 5px 2px #666;
+			border: 0;
+			margin-left: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		
+	</div>
+	<input type="text" name="">
+
+</body>
+</html>

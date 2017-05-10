@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.node--hover circle {
+  stroke: #000;
+  stroke-width: 1.2px;
+}
+
+</style>
+<svg width="960" height="960"><g transform="translate(1,1)"></g></svg>
+<script src="d3v4/d3.js"></script>
+<script>
+
+var data = {
+  "name": "Eve",
+  "value": 200,
+  "children": [
+    {
+      "name": "Cain",
+      "value": 200,
+    },
+    {
+      "name": "Seth",
+      "value": 200,
+      "children": [
+        {
+          "name": "Enos",
+          "value": 200,
+        },
+        {
+          "name": "Noam",
+          "value": 200,
+        }
+      ]
+    },
+    {
+      "name": "Abel",
+      "value": 200,
+    },
+    {
+      "name": "Awan",
+      "children": [
+        {
+          "name": "Enoch",
+          "value": 200,
+        }
+      ]
+    },
+    {
+      "name": "Azura",
+      "value": 200,
+    }
+  ]
+}
+var pack = d3.pack();
+   
+var root = d3.hierarchy(data)
+              .sum(function(d) {
+                return d.value;
+              })
+              .sort(function(a, b) {
+                return 1;
+              });
+    var root = pack(root);
+
+
+console.log(root);
+
+
+  var pack = d3.pack()
+              .padding(3);
+
+var color = d3.scaleSequential(d3.interpolateMagma)
+    .domain([-4, 4]);
+var node = d3.select("svg").select("g")
+    .selectAll("g")
+    .data(root.descendants())
+    .enter().append("g")
+      .attr("transform", function(d) {
+        return "translate(" + d.x * 100 + "," + d.y * 100 + ")"; })
+      .attr("class", function(d) { return "node" + (!d.children ? " node--leaf" : d.depth ? "" : " node--root"); })
+      .each(function(d) { d.node = this; });
+
+  node.append("circle")
+      .attr("id", function(d) { return "node-" + d.id; })
+      .attr("r", function(d) { return d.r * 100; })
+      .style("fill", function(d) { return color(d.depth); });
+
+</script>

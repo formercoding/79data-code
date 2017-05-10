@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    .wrap {
+      position: relative;
+      background: #64ECF6
+    }
+    .wrap div {
+      transition: all 1s;
+    }
+    .wrap .img2 {
+      position: absolute;
+      top: 5px;
+      left: 90px;
+    }
+    .wrap .img3 {
+      position: absolute;
+      top: 85px;
+      left: 259px;
+    }
+    .wrap .img4 {
+      position: absolute;
+      top: 136px;
+      left: 259px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="img1">
+      <img src="1.png">
+    </div>
+    <div class="img2">
+      <img src="2.png">
+    </div>
+    <div class="img3">
+      <img src="3.png">
+    </div>
+    <div class="img4">
+      <img src="4.png">
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  setInterval(function (argument) {
+    
+    var img1 = document.getElementsByClassName('img1')[0];
+    var img2 = document.getElementsByClassName('img2')[0];
+    var img3 = document.getElementsByClassName('img3')[0];
+    var img4 = document.getElementsByClassName('img4')[0];
+
+    var ran = Math.floor(Math.random() * 10);
+    console.log(ran, img2);
+    img2.style.top = (5 + ran) + 'px';
+    img3.style.top = (85 + ran) + 'px';
+    img4.style.top = (136 - ran) + 'px';
+
+    img1.style.transform = 'rotate(' + ran / 10 + 'deg)';
+    console.log(img1.style);
+  }, 2000)
+</script>
+</html>

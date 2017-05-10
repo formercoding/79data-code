@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title> 企搜搜</title>
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/filter.css"/>
+    <style type="text/css">
+      html,body{
+        height:100%;
+        }
+        #mask{
+            position: fixed;
+            top:0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: 0.3;
+            z-index: 10;
+            overflow: hidden;
+            display: none;
+        }
+        #nav{
+            position: fixed;
+            top:0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            background-color: black;
+            display: none;
+            z-index: 11;
+            list-style-type: none;
+        }
+       #nav li{
+            color: white;
+            font-family: Tahoma;
+            font-weight: bolder;
+            font-size: 12px;
+            padding: 30px 20% 0px 20%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="topNav">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        <span class="add">返回</span>
+        <span class="title">企搜搜</span>
+        <i class="fa fa-ellipsis-h more"></i>
+    </div>
+</header>
+<main>
+    <div class="detail-search">
+        <input type="text" class="detail-input" placeholder="总量425.3/25 今日新增3/29,郑州详情正在努力补全"/>
+        <i class="fa fa-search search"></i>
+    </div>
+    <div class="switcher">
+        <ul>
+            <li data-index="1">
+                地区
+                <i class="fa fa-sort-desc"></i>
+            </li>
+            <li data-index="2">
+                行业
+                <i class="fa fa-sort-desc"></i>
+            </li>
+            <li data-index="3">
+                筛选
+                <i class="fa fa-sort-desc"></i>
+            </li>
+            <li data-index="4">
+                排序
+                <i class="fa fa-sort-desc"></i>
+            </li>
+        </ul>
+    </div>
+    <div class="switcher-content">
+        <div class="content">
+            1
+        </div>
+        <div class="content">
+            2
+        </div>
+        <div class="content">
+            3
+        </div>
+        <div class="content">
+            4
+        </div>
+    </div>
+</main>  
+</body>
+<script type="text/javascript" src="../js/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+    $(".switcher li").click(function (argument) {
+        $(this).addClass("active").siblings("li").removeClass("active");
+        var index = $(this).attr("data-index");
+        console.log($(".switcher-content li")[index]);
+        $($(".switcher-content .content")[index]).show().siblings().hide();
+    })
+</script>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8"/>
+	<title>chapter2</title>
+	<script type="text/javascript" src="angular.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script> -->
+</head>
+<body>
+	<div ng-controller="myController">
+		<input ng-model="person.name" type="text" placeholder="your name"></input>
+		<h1>hello {{person.name}}</h1>
+		<h1>current time: {{ clock }}</h1>
+		<h1>{{name}}</h1>
+		<button ng-click="add(2)">add</button>
+		<a ng-click="substract(2)">substract</a>
+		<h2>current count: {{counter}}</h2>
+		<input ng-model="change" placeholder="input value"></input>
+		<h1>{{ "123456789" | limitTo:-3}}</h1>
+		<h1>{{ {"name": "aril", "city": "canada"} | json}}</h1>
+		<h1>{{ 'www' | myFilter}}</h1>
+
+	</div>
+</body>
+<script type="text/javascript">
+	angular.module("app", [])
+	.controller("myController", function($scope, $timeout, $filter) {
+			var updateClock = function() {
+				$scope.clock = new Date();
+				$timeout(function() {
+					updateClock();
+				}, 1000);
+			}
+			updateClock();
+			$scope.counter = 0;
+			$scope.add = function(amount) {
+				$scope.counter = $scope.counter + amount;
+			};
+			$scope.substract = function(amount) {
+				$scope.counter = $scope.counter - amount;
+			};
+			$scope.$watch("change", function(newVal, oldValue, scope) {
+				console.log(newVal, oldValue, scope);
+			});
+			$scope.name = ["ee", "eddd"];
+			$scope.fun = function() {
+				return true;
+			};
+
+			
+	})
+	.filter("myFilter", function() {
+		return function(input) {
+			console.log(input[1])
+			return input + "input";
+		}
+	})
+	.run(function($rootScope) {
+		$rootScope.name = "word";
+	})
+
+</script>
+</html>

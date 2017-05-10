@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>shape</title>
+	<meta charset="utf-8"/>
+	<script type="text/javascript" src="d3v4/d3.js"></script>
+	<style type="text/css">
+		svg {
+			height: 500px;
+			width: 500px;
+		}
+		.wrap {
+			margin: 0 auto;
+			width: 50%;
+		}
+		path {
+			fill: none;
+			stroke: red;
+		}
+		circle {
+			fill: #fff;
+			stroke: #FF3EEA;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<svg>
+		
+		</svg>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	var x = d3.scaleLinear()
+			.domain([0, 160])
+			.range([0, 500])
+	var y = d3.scaleLinear()
+			.domain([0, 10])
+			.range([0, 500])
+	var line = d3.line()
+		.x(function (d) {
+			return x(d.x);
+		})
+		.y(function (d) {
+			return d.y;
+		});
+	var data = [
+		[
+			{
+				x: 0,
+				y: 0
+			}, {
+				x: 10,
+				y: 300
+			}, {
+				x: 20,
+				y: 5
+			}, {
+				x: 30,
+				y: 200
+			}, {
+				x: 40,
+				y: 100
+			}, {
+				x: 50,
+				y: 300
+			}
+		], [{
+				x: 112,
+				y: 0
+			}, {
+				x: 112,
+				y: 300
+			}, {
+				x: 22,
+				y: 5
+			}, {
+				x: 138,
+				y: 200
+			}, {
+				x: 148,
+				y: 100
+			}, {
+				x: 158,
+				y: 300
+			}]
+	]
+	var svg = d3.select("svg");
+	svg.selectAll("pah.line")
+		.data(data)
+		.enter()
+		.append("path")
+		.attr("class", "line")
+		.attr("d", function(d) {
+			return line(d);
+		});
+	svg.selectAll(".dot")
+		.data(data[1])
+		.enter()
+		.append("circle")
+		.attr("cx", line.x())
+		.attr("cy", line.y())
+		.attr("r", 3.5);
+	svg.selectAll(".dot")
+		.data(data[1])
+		.enter()
+		.append("circle")
+		.attr("cx", line.x())
+		.attr("cy", line.y())
+		.attr("r", 3.5);
+	/* svg line
+	d3.select("svg").append("line")
+					.attr("x1", 0)
+					.attr("y1", 0)
+
+					.attr("x2", 100)
+					.attr("y2", 100);
+	*/				
+</script>
+</html>

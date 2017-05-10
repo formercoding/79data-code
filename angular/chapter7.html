@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8"/>
+	<title>chapter2</title>
+	<script type="text/javascript" src="angular.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script> -->
+	<script type="text/javascript" src="angular-messages.js"></script>
+	<style type="text/css">
+		input.ng-valid {
+			border: 1px solid green;
+		}
+		input.ng-invalid {
+			border: 2px solid red;
+		}
+		input.ng-pristine {
+			border: 1px solid yellow;
+		}
+	</style>
+</head>
+<body>
+	<div ng-controller="myController">
+		<form name="signup_form" novalidate ng-submit="signupForm()">
+			<label name="email"></label>
+			<input type="email" ng-model="eamil" name="email" 
+			ng-minlength="5" ng-maxlength="10"  placeholder="email address" required></input>
+			<div ng-messages="signup_form.name.$error" ng-messages-multiple>
+				<div ng-message="required">make sure your enter your name</div>
+				<div ng-message="minlength">your name must be 5</div>
+				<div ng-message="minlength">your name must be 10</div>
+			</div>
+		</form>
+		<h1>{{state}}</h1>
+	</div>
+</body>
+<script type="text/javascript">
+	angular.module("app", ["ngMessages"])
+	.controller("myController", function($scope, $timeout, $filter) {
+		
+	})
+	.run(function($rootScope) {
+		$rootScope.name = "word";
+
+	})
+
+</script>
+</html>

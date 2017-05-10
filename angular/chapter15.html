@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8"/>
+	<title>angularjs</title>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" src="angular-route.js"></script>
+
+	<!-- <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script> -->
+	<link rel="stylesheet" type="text/css" href="angular.css">
+</head>
+<body>
+	<div ng-controller="myController">
+		
+	</div>
+</body>
+<script type="text/javascript">
+	angular.module("app", ["ngRoute"])
+	.controller("myController", ["$scope", "$http", function($scope, $http) {
+		$http({
+			method: "get",
+			url: "/angular/test.json",
+			params: {
+				"name": "luo"
+			},
+			timeout: 5000
+		}).success(function(data, status, headers, config) {
+			// 准备就绪
+			console.log(data, status, headers, config);
+		}).error(function() {
+			// 响应错误
+			console.log("error");
+		})
+	}])
+</script>
+	
+</html>

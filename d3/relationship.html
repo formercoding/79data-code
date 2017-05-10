@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>partner relative</title>
+</head>
+<body>
+<svg></svg>
+<script src="d3v4/d3.js"></script>
+<script>
+
+var svg = d3.select("svg")
+			.attr("width", 1500)
+			.attr("height", 1000);
+
+    width = svg.attr("width"),
+    height = svg.attr("height");
+//console.log(height);
+//var color = d3.scaleOrdinal(d3.schemeCategory20b)
+            //.domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+var color = d3.scaleSequential(function(t) {
+  //console.log(t, d3.hsl(360, t / 10, 0.5))
+        return d3.hsl(150 , (t + 1) * 0.2, 0.5);
+});
+
+var loop = 0;
+var simulation = d3.forceSimulation()
+	//.force("x", d3.forceX(1000).strength(-0.5)) // x,y 设置中心位置
+	//.force("y", d3.forceY(500).strength(-0.5))
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    //.force("charge", d3.forceManyBody().strength(-500))
+    .force("charge", d3.forceCollide(40))
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+d3.json("relationship.json", function(error, graph) {
+  if (error) throw error;
+  simulation
+  	  .alpha(0.01)  // alpha是动画的冷却系数，运动过程中会不断减小，直到小于0.005为止，此时动画会停止 
+      .nodes(graph.nodes)
+      .on("tick", ticked);
+
+  simulation.force("link")
+      .links(graph.links)
+
+function ticked() {
+	var i = 0;
+	var links = d3.select("svg").selectAll(".link").data(graph.links, function(d) { return ++i;});
+    var enterLinks = links.enter()
+  		.append("line")
+  		.attr("stroke", "rgba(170,170,170,0.2)")
+  		.attr("class", "link")
+  		.attr("x1", function(d) {
+  			return d.target.x;
+  		})
+  		.attr("y1", function(d) {
+  			return d.target.y;
+  		})
+  		.attr("x2", function(d) {
+  			return d.source.x;
+  		})
+  		.attr("y2", function(d) {
+  			return d.source.y;
+  		})
+  		
+    var exitLink = links.exit().remove();
+
+    var texts = d3.select("svg").selectAll(".text").data(graph.links, function(d) {return ++i;
+    });
+
+    var enterText =  texts.enter()
+      .append("text")
+      .attr("class", "text")
+      .attr("x", function(d) {
+        return (d.source.x + d.target.x) / 2;
+      })
+      .attr("y", function(d) {
+        return (d.source.y + d.target.y) / 2;
+      })
+      .text(function(d) {
+        return d.value;
+      })
+      .attr("fill", "#bdd7af")
+
+    var exitText = texts.exit().remove();
+
+    var nodes = d3.select("svg").selectAll(".node").data(graph.nodes, function(d) {return ++i;
+    });
+
+    var ss = 0; // 固定某种类型在中间的x系数
+  	var enterNode =  nodes.enter()
+  		.append("circle")
+  		.attr("stroke", "#aaa")
+  		.attr("class", "node")
+  		.attr("cx", function(d, i) {
+        if (d.fx) { // 固定拖拽点
+          return d.fx;
+        } else if (d.group == 4) {
+          d.fx = 200 + ss++ * 100;
+        }
+        return d.x;
+  		})
+  		.attr("cy", function(d) {
+        if (d.fy) {
+          return d.fy;
+        }else if(d.group == 4) { // 固定某类型在中间
+          ss++;
+          d.fy = 500;
+        }
+        d.y = d.y > 950 ? 600 : d.y;
+        d.y = d.y < 50 ? 200 : d.y;
+
+        return d.y; // 保证不溢出
+  		})
+  		.attr("r", function(d) {
+        if (d.group == 4) {
+          return 35;
+        }
+  			return 30;
+  		})
+      .attr("fill", function(d) {
+        if (d.fy) {
+          return color(Math.ceil(Math.abs(d.fy - 500) / 100));
+        } else {
+          return color(Math.ceil(Math.abs(d.y - 500) / 100));
+        }
+      })
+
+    var exitNode = nodes.exit().remove();
+
+    
+
+    var nodeTexts = d3.select("svg").selectAll(".text-g").data(graph.nodes, function(d) {return ++i;
+    });
+
+    var enterNodeTexts =  nodeTexts.enter()
+  		.append("g")
+  		.attr("class", "text-g")
+  		/*.attr("x", function(d) {
+  			return d.x + 20;
+  		})
+  		.attr("y", function(d) {
+  			return d.y;
+  		})
+  		.text(function(d) {
+  			return d.id;
+  		})*/
+
+    enterNodeTexts.each(function(d, i) {
+      var line = Math.ceil(d.id.length / 5);
+      for(var j = 0; j < line; j++) {
+        d3.select(this).append("text")
+            .attr("fill", "#fff")
+            .attr("x", function() {
+              return d.x - 20 ;
+            })
+            .attr("y", function() {
+              return d.y + j * 15;
+            })
+            .text(function() {
+              return d.id.slice(j * 5, j * 5 + 5);
+            }) 
+      } 
+    })
+    var exitNodeTexts = nodeTexts.exit().remove();
+
+}
+  d3.select("svg")
+      .call(d3.drag()
+          //.container(svg)
+          .subject(dragsubject)
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+  function dragsubject() {
+    return simulation.find(d3.event.x, d3.event.y);
+  }
+
+function dragstarted(d) {
+  
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d3.event.subject.fx = d3.event.subject.x;
+  d3.event.subject.fy = d3.event.subject.y;
+  graph.nodes.forEach(function(item) {
+    if (! item.fx) {
+        item.fx = item.x;
+        item.fy = item.y;
+    }
+    
+  });
+  
+}
+
+function dragged() {
+  //console.log(d3.event.subject);
+  d3.event.subject.fx = d3.event.x;
+  d3.event.subject.fy = d3.event.y;
+}
+
+function dragended() {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  //d3.event.subject.fx = null;
+  //d3.event.subject.fy = null;
+  
+}
+});
+
+/*function drawLink() {
+  d3.select("svg").selectAll(".link")
+  		.data(graph.links)
+  		.append("line")
+  		.attr("class", "link")
+  		.attr("x1", function(d) {
+  			return d.target,x;
+  		})
+  		.attr("y1", function(d) {
+  			return d.target.y;
+  		})
+  		.attr("x2", function(d) {
+  			return d.source.x;
+  		})
+  		.attr("y2", function(d) {
+  			return d.source.y;
+  		})
+}*/
+
+/*function drawText(d) {
+  context.fillText(d.value, (d.source.x + d.target.x) / 2, (d.source.y + d.target.y) / 2);
+}
+
+function drawNode(d) {
+  context.moveTo(d.x + 10, d.y);
+  context.arc(d.x, d.y, 10, 0, 2 * Math.PI);
+}
+
+function drawName(d) {
+  context.moveTo(d.x + 10, d.y);
+  context.arc(d.x, d.y, 10, 0, 2 * Math.PI);
+}*/
+
+</script>
+</body>
+</html>

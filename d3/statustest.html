@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>status test</title>
+	<script type="text/javascript" src="d3v4/d3.js"></script>
+</head>
+<body> 
+  <p></p> 
+  <script> 
+  var dataset = [3, 6, 9]; 
+  var p = d3.select("body").selectAll("p"); 
+  //绑定数据后，分别获取update和enter部分 
+  var update = p.data(dataset); 
+  var enter = update.enter();   
+  //update部分的处理方法是直接修改内容 
+  update.text( function(d){ return d; } ); 
+  //enter部分的处理方法是添加元素后再修改内容 
+  
+  enter.append("p") 
+   .text(function(d){ return d; }); 
+
+
+   var p = d3.select("body").selectAll("p"); 
+   update1 = p.data([5, 8]);
+
+   update1.exit().remove();
+
+  console.log(update1);
+
+  console.log(d3.select("body").selectAll("p")._groups[0][1].__data__)
+  </script> 
+ </body>
+ 
+</html>

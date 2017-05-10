@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<style>
+.wrap {
+  margin: 0 auto;
+}
+svg {
+  width: 1200px;
+  height: 500px;
+}
+.node text {
+  font: 10px sans-serif;
+}
+.link {
+  fill: none;
+  stroke: #555;
+  stroke-opacity: 0.4;
+  stroke-width: 1.5px;
+  stroke-width: 2px;
+}
+img {
+  display: none;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <g>
+       <circle r="9" fill="#ee7698" stroke-opacity="0.5" stroke-width="0"></circle>
+    </g>
+  </svg>
+</div>
+<canvas></canvas>
+<script src="jquery-3.1.1.js"></script>
+<script type="text/javascript">
+function drawpic() {
+    var svgXml = $(".wrap").html();
+    var image = new Image();
+    //console.log(svgXml);
+    image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgXml)));
+    //image = document.getElementsByTagName("img")[0];
+    console.log(image);
+    var canvas = document.getElementsByTagName('canvas')[0];  //准备空画布
+    var context = canvas.getContext('2d');  //取得画布的2d绘图上下文
+    context.drawImage(image, 100, 10);
+}
+function download(canvas,type) {
+        //设置保存图片的类型
+        var imgdata = canvas.toDataURL(type);
+        //将mime-type改为image/octet-stream,强制让浏览器下载
+        var fixtype = function (type) {
+            type = type.toLocaleLowerCase().replace(/jpg/i, 'jpeg');
+            var r = type.match(/png|jpeg|bmp|gif/)[0];
+            return 'image/' + r;
+        }
+        imgdata = imgdata.replace(fixtype(type), 'image/octet-stream')
+        //将图片保存到本地
+        var saveFile = function (data, filename) {
+            var link = document.createElement('a');
+            link.href = data;
+            link.download = filename;
+            var event = document.createEvent('MouseEvents');
+            event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            link.dispatchEvent(event);
+        }
+setTimeout(drawpic, 1000);
+</script>
+</body>
+</html>

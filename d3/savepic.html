@@ -1,0 +1,72 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <title></title>
+  </head>
+  <body>
+    <script>
+    function jietu(svgDivId){
+        var jietuMask=document.createElement("div");
+        $(jietuMask).attr('style','position: fixed; background: #fff; z-index: 1000; top: 0px; bottom: 0px; left: 0px; right: 0px;');
+        document.body.appendChild(jietuMask);
+
+
+        var _svgWidth = d3.select('svg').attr('width');
+        var _svgHeight = d3.select('svg').attr('height');
+        var _scale = zoom.scale();
+        var _translate = zoom.translate();
+
+        zoom.scale(1.5);
+        zoom.translate([3264/2,2448/2]);
+        container.attr("transform", "translate("+zoom.translate()+")scale("+zoom.scale()+")");
+        d3.select('svg').attr('width',3264);
+        d3.select('svg').attr('height',2448);
+        
+        var svgXml = $('#'+svgDivId).html();
+        var image = new Image();
+        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgXml)));
+        //window.win = open (image.src);   
+        setTimeout(function() {
+            var canvas = document.createElement('canvas');  //准备空画布
+            canvas.width = $('#'+svgDivId+' svg').width();
+            canvas.height = $('#'+svgDivId+' svg').height();
+            zoom.scale(_scale);
+            zoom.translate(_translate);
+            container.attr("transform", "translate("+zoom.translate()+")scale("+zoom.scale()+")");
+            d3.select('svg').attr('width',_svgWidth);
+            d3.select('svg').attr('height',_svgHeight);
+            $(jietuMask).css('display','none');
+            var context = canvas.getContext('2d');  //取得画布的2d绘图上下文
+            context.drawImage(image, 0, 0);
+            var marker = '企业图谱由企查查基于公开信息利用大数据分析引擎独家生成。';
+            context.font = "30px 微软雅黑";
+            context.fillStyle = "#aaaaaa";
+            context.fillText(marker, canvas.width/2-context.measureText(marker).width/2, canvas.height-100);
+            download(canvas,'jpg');
+        }, 100);
+    }
+ function download(canvas,type) {
+        //设置保存图片的类型
+        var imgdata = canvas.toDataURL(type);
+        //将mime-type改为image/octet-stream,强制让浏览器下载
+        var fixtype = function (type) {
+            type = type.toLocaleLowerCase().replace(/jpg/i, 'jpeg');
+            var r = type.match(/png|jpeg|bmp|gif/)[0];
+            return 'image/' + r;
+        }
+        imgdata = imgdata.replace(fixtype(type), 'image/octet-stream')
+        //将图片保存到本地
+        var saveFile = function (data, filename) {
+            var link = document.createElement('a');
+            link.href = data;
+            link.download = filename;
+            var event = document.createEvent('MouseEvents');
+            event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            link.dispatchEvent(event);
+        }
+        var filename = new Date().toLocaleDateString() + '.' + type;
+        saveFile(imgdata, filename);
+    }
+    </script>
+  </body>
+  </html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<style>
+.wrap {
+  margin: 0 auto;
+}
+/* svg {
+  width: 1009px;
+  height: 1009px;
+} */
+</style>
+</head>
+<body>
+<div class="wrap">
+  <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000">
+    <g></g>
+  </svg>
+</div>
+<script src="d3v4/d3.js"></script>
+<script>
+var color = d3.scaleOrdinal(d3.schemeCategory20c).domain([2, 20]);
+var width = d3.select("svg").style("width").slice(0, -2);
+var height = d3.select("svg").style("height").slice(0, -2);
+var minLength = width > height ? width / 2 : height / 2;
+function project(x, y) {
+    var angle = x * Math.PI * 2 , radius = y * (minLength);
+      return [width / 2 + radius * Math.cos(angle), height / 2 + radius * Math.sin(angle)];
+}
+function tproject(x, y) {
+    var angle = x * Math.PI * 2 , radius = y * (minLength + 10);
+      return [width / 2 + radius * Math.cos(angle), height / 2 + radius * Math.sin(angle)];
+}
+// 数据结构
+var cluster = d3.cluster();
+var stratify = d3.stratify()
+                 .parentId(function(d) {
+                    return d.id.substring(0, d.id.lastIndexOf("."));
+                 });
+d3.csv("relative.csv", function(error, data) {
+      var root = stratify(data).sort(function(a, b) { 
+                    return a.height - b.height || a.id.localeCompare(b.id); 
+                 });
+
+
+
+      // 点击节点收缩舒张
+      function click(d) {
+          if (d.children) {
+            d._children = d.children;
+            d.children = null;
+          } else {
+            d.children = d._children;
+            d._children = null;
+          }
+          update();
+      }
+      function update() {       
+      
+      var i = 0;
+      // 将数据转化为树结构  
+        cluster(root);
+      var h = root.height;
+      // 层次节点收缩
+      function collapse(d) {
+        d.y = (d.depth + 1) / h;
+        if (d.children) {
+          d.children.forEach(collapse);
+        }
+      }
+      //collapse(root);
+
+        // 线条绘制 
+        var updateLink = d3.select("g")
+             .selectAll("path.link")
+             .data(root.descendants().slice(1), function(d) { 
+               return ++i; });
+
+        var enterLink = updateLink.enter()
+             .append("path")
+             .attr("class", "link")
+             .attr("fill", "none")
+             .style("stroke", function(d) {
+                      return color(d.depth);
+                    })
+             .attr("d", function(d) {
+                    if (d.x0) {
+                      return "M" + project(d.x0, d.y0)
+                        + "C" + project(d.x0, (d.y0 + d.parent.y0) / 2)
+                        + " " + project(d.parent.x0, (d.y0 + d.parent.y0) / 2)
+                        + " " + project(d.parent.x0, d.parent.y0);
+                    } else {
+                      return "M" + project(d.parent.x, d.parent.y)
+                        + "C" + project(d.parent.x, (d.parent.y + d.parent.y) / 2)
+                        + " " + project(d.parent.x, (d.parent.y + d.parent.y) / 2)
+                        + " " + project(d.parent.x, d.parent.y);
+                    }
+                    
+             });
+
+
+            //d3.selectAll(".link").data([1, 4]).exit().remove(); //为何有两个无法删除
+
+
+        // 圆点绘制
+        var updateNode = d3.select("g")
+                    .selectAll(".node")
+                    .data(root.descendants(), function(d) { return ++i; });
+
+        var enterNode = updateNode.enter()
+                    .append("circle")
+                    .attr("class", "node")
+                    .attr("r", function(d) {
+                      return 20 / (d.depth + 1);
+                    })
+                    .style("stroke-width", "2px")
+                    .style("stroke", function(d) {
+                      return color(d.depth);
+                    })
+                    .style("fill", function(d) {
+                      if (d.children || d._children) {
+                        return color(d.depth + 1);
+                      } else {
+                        return color(d.depth);
+                      }
+                    })
+                    .attr("transform", function(d) {
+                            if (d.x0) {
+                              return "translate(" + project(d.x0, d.y0) + ")";
+                            } else if (d.parent){
+                              return "translate(" + project(d.parent.x, d.parent.y) + ")";
+                            } else {
+                              return "translate(" + project(d.x, d.y) + ")";
+                            }
+                           
+                    })
+                    .on("click", function(d) { // 点击事件
+                        click(d);
+                    });
+
+          // 文本绘制
+          var updateText = d3.select("g")
+                    .selectAll(".text")
+                    .data(root.descendants(), function(d) { return ++i; });
+
+          var enterText = updateText.enter()
+                    .append("text")
+                    .attr("class", "text")
+                    .attr("text-anchor", function(d) {
+                      if (d.x > 0.25 && d.x < 0.75) {
+                        return "end";
+                      } else {
+                        return "start";
+                      }
+                    })
+                    .attr("transform", function(d) {
+                      if (d.x > 0.25 && d.x < 0.75) {
+                        var deg = 360 * d.x - 180;
+                        return "translate(" + tproject(d.x, d.y) + ")rotate(" + deg + ")";
+                      } else {
+                        return "translate(" + tproject(d.x, d.y) + ")rotate(" + d.x * 360 + ")";
+                      }
+                    })
+                    .style("opacity", 0)
+                    .text(function(d) { 
+                      return d.id.substring(d.id.lastIndexOf(".") + 1);
+                    })
+
+         
+             
+
+         // 线条更新
+         enterLink.transition()
+                         .duration(2000)
+                         .attr("d", function(d) {
+                              return "M" + project(d.x, d.y)
+                                + "C" + project(d.x, (d.y + d.parent.y) / 2)
+                                + " " + project(d.parent.x, (d.y + d.parent.y) / 2)
+                                + " " + project(d.parent.x, d.parent.y);
+                          });
+
+        // 圆点更新       
+        enterNode.transition()
+                        .duration(2000)
+                        .attr("transform", function(d) {
+                            return "translate(" + project(d.x, d.y) + ")";
+                        })
+
+         // 文本更新
+         enterText.transition()
+                        .duration(2000)
+                        .style("opacity", "1");
+
+         // 圆点退出模式
+         var exitNode = updateNode.exit()
+                         /*.transition()
+                         .duration(200)*/
+                         .attr("transform", function(d) {
+                            if (d.parent) {
+                              return "translate(" + project(d.parent.x0, d.parent.y0) + ")";
+                            } else {
+                              return "translate(" + project(d.x0, d.y0) + ")";
+                            }
+                         })
+                         .remove();
+
+        // 文字退出模式
+        var exitLink = updateText.exit()
+                         .transition()
+                         .duration(1000)
+                         .style("opacity", 0)
+                         .remove();
+
+        // 线条退出模式
+        var exitLink = updateLink.exit()
+                         /*.transition()
+                         .duration(200)
+                         .attr("d", function(d) {
+                              return "M" + project(d.parent.x0, d.parent.y0)
+                                + "C" + project(d.parent.x0, (d.parent.y0 + d.parent.y0) / 2)
+                                + " " + project(d.parent.x0, (d.parent.y0 + d.parent.y0) / 2)
+                                + " " + project(d.parent.x0, d.parent.y0);
+                          })*/
+                         .remove();
+
+        root.descendants().forEach(function(d) {
+          d.x0 = d.x;
+          d.y0 = d.y;
+        })
+         }
+      
+      update(root);
+      zoom = d3.select("svg").call(
+        d3.zoom()
+          .scaleExtent([0.5, 4])
+          //.translateExtent([[-200, -300], [3000, 1200]]) // 右下角 VS 左上角
+          .on("zoom", zoomed)
+      );
+      function zoomed() {
+        d3.select("g").attr("transform", "translate(" + d3.event.transform.x + "," + d3.event.transform.y + ") scale(" + d3.event.transform.k + ")");
+      }
+
+});
+</script>
+<script type="text/javascript">
+function drawpic() {
+    var svgXml = document.getElementsByClassName("wrap")[0].innerHTML;
+    var image = new Image();
+        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgXml)));
+    setTimeout(function() {
+      //image = document.getElementsByClassName("")
+        var canvas = document.createElement("canvas");  //准备空画布
+        console.log(width, height);
+            canvas.width = width;
+            canvas.height = height;
+        var context = canvas.getContext('2d');  //取得画布的2d绘图上下文
+        console.log(image);
+        context.drawImage(image, 0, 0);
+        document.body.appendChild(canvas);
+          savePic(canvas, "jpg")
+    }, 1000)
+}
+function savePic(canvas, type) {
+        //设置保存图片的类型
+        var imgdata = canvas.toDataURL(type);
+        //将mime-type改为image/octet-stream,强制让浏览器下载
+        var fixtype = function (type) {
+            type = type.toLocaleLowerCase().replace(/jpg/i, 'jpeg');
+            var r = type.match(/png|jpeg|bmp|gif/)[0];
+            return 'image/' + r;
+        }
+        imgdata = imgdata.replace(fixtype(type), 'image/octet-stream')
+        //将图片保存到本地
+        var saveFile = function (data, filename) {
+            var link = document.createElement('a');
+            link.href = data;
+            link.download = filename;
+            var event = document.createEvent('MouseEvents');
+            event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            link.dispatchEvent(event);
+        }
+        var filename = new Date().toLocaleDateString() + '.' + type;
+        saveFile(imgdata, filename);
+      }
+setTimeout(drawpic, 2200);
+</script>
+</body>
+</html>

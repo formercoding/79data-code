@@ -1,0 +1,164 @@
+/*通用样式*/
+html{height:100%;font-family:"微软雅黑"}
+body{margin: 0;padding: 0;border:0;font-size: 14px;height: 100%;background: #f7f7f7;  color: #333;}
+ul,ol{list-style: none}
+ul,li{padding:0;margin:0}
+div,ul,li{box-sizing: border-box}
+main{background: #f7f7f7;width: 100%;height: 100%}
+/* main.html的样式*/
+.topNav{
+	width: 100%;
+	background: #393939;
+	border-bottom: 1px solid #eee;
+	position: fixed;
+	top:0;  
+	padding:1em;
+	border-bottom: 0;
+}
+.topNav>i{
+	float: left;
+	font-size: 24px;
+	padding-right:10px; 
+	color:#fff;
+	vertical-align: middle;
+}
+.topNav>span.add{
+	float: left;
+	font-size: 16px;
+	padding-right:25px; 
+	color:#fff;
+}
+.topNav .title{
+	font-size:16px;
+	color:#fff;
+	padding-left: 40px;
+}
+.topNav>i.more {
+	float: right;
+	font-size: 24px;
+}
+
+/*内容*/
+.banner-search {
+	position: relative;
+	margin-top: 50px;
+	width: 100%;
+	overflow: hidden;
+	background:url("../image/首页背景.jpg") no-repeat;
+}
+.banner-search p.title{
+	text-align: center;
+	font-size:24px;
+	color:#fff;
+	text-shadow: 4px 4px 10px rgba(0,0,0,.5);
+	margin: 20px 0;
+}
+/*搜索框的样式*/
+.banner-search input[type=text]{
+    width: 70%;
+    height: 25px;
+    line-height: 25px;
+    display: inline-block;
+    position: absolute;
+    bottom: 10px;
+    left: 9%;
+    border-radius: 5px;
+    border: 0;
+    font-size: 12px;
+    padding: 0 6px;
+}
+.banner-search .searBtn{
+	font-size: 22px;
+	color:#fff;
+	padding: 4px;
+	background-color: #fea74a;
+}
+
+
+/*发现的页面*/
+.publish{position: absolute;top:4em;width: 100%;}
+.publish ul{width: 100%;margin: 5px 0;overflow: hidden}
+.publish ul li{width: 25%;background: #fff;float: left;height: 7em;  border:1px solid #f7f7f7;text-align: center;font-size: 14px;padding:1.5em 0;}
+.publish ul li img{;height: 60%;}
+.ad{margin-top: 5px}
+.ad img{width: 100%}
+.zuixin{width: 100%;margin-top: 5px ;background: #fff;height: 3em;line-height: 3em}
+.zuixin span{border-left: 3px solid #e12323;font-size: 16px ;margin-left: 10px;padding: 0 10px}
+.publist{width: 100%;margin-top: 5px;}
+.publist ul{width: 100%;margin-bottom: 4em}
+.publist ul li{width: 100%;border-bottom: 1px solid #eee;text-align: left;;padding:10px;height: 7em;;font-size: 16px}
+.publist ul li img{height: 100%;border-bottom: 5px;float: left}
+.publist .pleft{float: left;margin-left: 10px}
+.publist .title{height: 2em;font-weight: bolder;}
+.publist p{height:2em;overflow: hidden;margin: 0;padding: 0}
+.publist .price{color: #ff662c;font-weight: bolder;float: left}
+.publist .ptype{float: right}
+.publist .pdate{color: #999;font-size: 14px;padding-top: 10px}
+
+/*商品详情的样式*/
+.banner{width: 100%; height: 400px; background: #ccc;}
+.shop-demail{width: 100%;height: 40px;}
+.shop-img{width: 50px;height: 50px;float: left;margin: 20px 30px}
+.shop-img #shoplogo{width: 100%;border: 1px solid #999}
+.shop-tiitle{float: left;margin-top: 25px;}
+.shop-tiitle #shopname{font-size: 14px;color: #333;font-weight: bolder;}
+#rz{width: 10px;height: 10px;display: inline-block}
+#rz img{width: 100%}
+#amount{margin: 5px 0}
+
+/*用户的样式*/
+.userinfo {  width: 100%;  height: 30%;  background-color: #dc1f3e;  position: relative;  top: 0;  }
+.userimg{width: 80px;  height: 80px;  border: 4px solid pink ;  border-radius: 50%;  background-color: white;  position: absolute;  top:15%;  left: 10%;}
+.userlogin span{ font-size: 18px;  color: white;  position: absolute;  top:30%;  left: 40%;}
+.usernavbc{width: 100%;height: 50px;  background-color: #262626;  border-right: 1px solid white;  opacity: 0.5;  padding: 10px;  position: absolute;  bottom: 0; z-index: 1 }
+.usernav{position: absolute;bottom: 0px;  width:100%;;height: 50px;line-height: 50px;z-index: 2;color: #fff;opacity: 1}
+.usernav li{  width: 33%;  height: 100%;  text-align: center;  color: white;  border-right: 1px solid #fff;  float: left;}
+/*注册样式*/
+.zhuce{width: 80%;height: 300px;background: #fff;margin: 20px auto;position: relative;top:4em;}
+.zhuce ul{list-style-type: none;width: 100%;  border:1px solid #eee;}
+.zhuce ul li{ width: 100%;height:4em;line-height: 4em;border-bottom: 1px solid #eee;padding: 3px 2em}
+.zhuce ul li input{border:0;}
+#checkbox{  width: 33%;  margin: 0 auto;  font-size: 12px;  }
+#checkbox .checkbox{  vertical-align: middle;  }
+#sub{  width: 94%;  height: 35px;
+    background-color: #dc1f3e;  color: white;
+    font-size: 14px;  margin-left: 3%;  border-radius: 3px;
+    margin-top: 15px;
+}
+
+
+/* 登录页面样式 */
+.logindex{ width: 100%; text-align: center; padding:10% 3em;}
+.logindex h1{ padding-top:1em; line-height: 2em; font-size: 2.2em}
+.logindex p{ color:#666; line-height: 2em; font-size: 1.5em}
+.logindex img{ width: 100%; margin: 2em 0}
+.logindex span{ width: 45%; height: 3em;  border: 1px solid #dc1f3e; border-radius: 5px;  line-height: 3em; font-size:18px}
+.loginbc{ margin-top: 2em}
+.loginbtn{ float: left;color: #dc1f3e}
+.regbtn{ float: right; background: #dc1f3e; color:#fff}
+
+
+
+
+
+
+/*底部样式*/
+footer{ position:fixed; bottom: 0; width: 100%; text-align: center}
+footer>ul{ width: 100%;  border-top: 1px solid #eee;background:#fff; padding-top: 0.5em;}
+footer>ul>li{ width: 33.3%; float: left; height: 4em;background:#fff; padding-top:2em; background-position: top center; background-repeat: no-repeat; background-size: 20px;}
+footer>ul>li.active{ color:#dc1f3e}
+
+#main{background-image: url("../image/main.png");}
+#mall{background-image: url("../image/mall.png");}
+#find{background-image: url("../image/find.png");}
+#user{background-image: url("../image/user.png");}
+
+
+
+
+
+
+
+
+
+

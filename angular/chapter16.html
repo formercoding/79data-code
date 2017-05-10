@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8"/>
+	<title>angularjs</title>
+	<script type="text/javascript" src="xml2json.js"></script>
+	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" src="angular-route.js"></script>
+
+	<!-- <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script> -->
+	<link rel="stylesheet" type="text/css" href="angular.css">
+</head>
+<body>
+	<div ng-controller="myController">
+		
+	</div>
+</body>
+<script type="text/javascript">
+	angular.module("app", ["ngRoute"])
+	.config(function($httpProvider) {
+		$httpProvider.defaults.useXDomain = true;
+		delete $httpProvider.defaults.headers.common["X-Requested-Width"];
+	})
+	.factory("xmlParser", function() {
+		var x2js = new X2JS();
+		return {
+			xml2json: x2js.xml2json,
+			json2xml: x2js.json2xml_str
+		};
+	})
+	.factory("Data", ["$http", "xmlParser", function($http, xmlParser) {
+		return 	$http.get("/angular/test.xml", {
+						transformResponse: function(data) {
+							return xmlParser.xml2json(data);
+						}
+				}).success(function(data, status) {
+					console.log(data)
+					return data;
+				});
+	}])
+	.controller("myController", ["$scope", "$http", "xmlParser", "Data", function($scope, $http, xmlParser, Data) {
+		console.log(Data);
+	}]);
+	var injector = angular.injector(["ng", "app"]);
+	console.log(injector.get("Data"));
+
+</script>
+	
+</html>

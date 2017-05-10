@@ -1,0 +1,71 @@
+.h-bar {
+	min-height: 15px;
+    min-width: 10px;
+    background-color: steelblue;
+    margin-bottom: 2px;
+    font-size: 11px;
+    color: #f0f8ff;
+    text-align: right;
+    padding-right: 2px;
+}
+.fixed-cell {
+	width: 100px;
+	position: relative;
+	left: 500px;
+}
+.svg-demo {
+	width: 600px;
+	height: 600px;
+	margin: 0 auto;
+}
+/*
+circle {
+	stroke: red;
+	fill: blue;
+}
+*/
+.circle1 {
+	fill: purple;
+	fill-opacity: 1;
+	stroke: purple;
+	stroke-width: 0;
+}
+.circle2 {
+	fill: red;
+	fill-opacity: 0;
+	stroke: green;
+	stroke-width: 10px;
+}
+.year-demo {
+	width: 1000px;
+	height: 1000px;
+	background: #EEEEEE;
+	margin: 0 auto;
+}
+.event-event {
+	width: 500px;
+	height: 200px;
+	background: #A7EE30;
+	position: absolute;
+}
+.month-event {
+	top: 30px;
+	width: 800px;
+	background: #fff;
+	position: absolute;
+	border-radius: 5px;
+	box-shadow: 0 0 20px #666;
+	font-size: 25px;
+	padding-left: 5px;
+	color: #333;
+}
+.month-event label {
+	margin-bottom: 5px;
+}
+.month-event p {
+	border-bottom: 1px solid #f9f9f9;
+	margin: 0;
+	padding-bottom: 5px;
+}
+.month-event 
+

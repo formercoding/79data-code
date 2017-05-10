@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>title</title>
+     <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css"/>
+    <style>
+        .searchInput{
+            text-align: center;
+            position: relative;
+        }
+        #input{
+            width: 80%;
+            height:40px;
+            text-indent: 25px;
+
+        }
+        .search{
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 7px;
+            left:15%;
+        }
+        img{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+	<header class="aui-bar aui-bar-nav aui-bg-default" style="color: #999" id="header">
+    <i class="aui-iconfont aui-icon-left aui-pull-left " style="color: #999" onclick="history.go(-1)"></i>
+    <span class="">搜索</span>
+</header>
+<div class="aui-content searchInput " >
+    <input type="text" placeholder="请输入查询内容..." value="" id="input">
+    <div class="search"><img src="../image/search.png"/></div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+	};
+</script>
+</html>

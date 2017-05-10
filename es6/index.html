@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>study es6</title>
+</head>
+<body>
+<script type="text/javascript">
+	var a = [];
+	for (let i = 0; i < 10; i++) {
+		a[i] = function () {
+			console.log(i);
+		}
+	}
+	a[1]();
+	function bar(x = 2, y = x) {
+		console.log([x, y]);
+	}
+	bar();
+	if (false) {
+		console.log("false");
+	}
+	var a = [1, 2, 3];
+	function add([x, y]) {
+		console.log(x + y);
+	}
+	add([1, 2]);
+	for (let codePoint of "foo") {
+		console.log(codePoint);
+	}
+</script>
+</body>
+</html>

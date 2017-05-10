@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>router demo</title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div id="app">
+		<h1>hollo app</h1>
+		<p>
+			<!-- 使用指令v-link进行导航 -->
+			<a v-link="{path: '/foo'}">Go to Foo</a>
+			<a v-link="{path: '/bar'}">Go to Bar</a>
+		</p>
+		<!-- 路由外链 -->
+		<div>
+		  <p>当前路径: {{$route.path}}</p>
+		  <p>当前路由参数: {{$route.params | json}}</p>
+</div>
+		<router-view></router-view>
+	</div>
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript" src="vue-router.js"></script>
+<script type="text/javascript" src="router.js"></script>
+</html>

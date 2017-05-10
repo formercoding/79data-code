@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8"/>
+	<title>chapter2</title>
+	<script type="text/javascript" src="angular.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script> -->
+	<script type="text/javascript" src="angular-messages.js"></script>
+	<style type="text/css">
+		input.ng-valid {
+			border: 1px solid green;
+		}
+		input.ng-invalid {
+			border: 2px solid red;
+		}
+		input.ng-pristine {
+			border: 1px solid yellow;
+		}
+	</style>
+</head>
+<body>
+	<div ng-controller="myController">
+			<input type="text" ng-model="theirUrl"></input>
+		<!-- <my-directive></my-directive> -->
+		<div my-directive my-myUrl="somemyUrl with @ binding" some-attr="theirUrl"></div>
+		<!-- <div class="my-directive"></div> -->
+	</div>
+</body>
+<script type="text/javascript">
+	angular.module("app", ["ngMessages"])
+	.controller("myController", function($scope, $timeout, $filter) {
+		
+	})
+	.directive("myDirective", function() {
+		return {
+			restrict: 'EAC',
+			replace: true,
+			scope: {
+				myUrl: "@someAttr"
+			},
+			template: '<input type="text" ng-model="myUrl"></input>',
+			controller: function($scope) {
+				$scope.myUrl = "need to be set";
+			}
+		}
+	})
+	.run(function($rootScope) {
+		$rootScope.name = "word";
+
+	})
+
+</script>
+</html>

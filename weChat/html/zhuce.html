@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>title</title>
+     <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+</head>
+<body>
+	<div class="topNav">
+    <span id="phone" onclick="history.go(-1)">&lt;手机号注册</span>
+</div>
+<div class="zhuce">
+   <form id="confimInfo"  action="../index.html" onsubmit="return confimInfo()">
+       <ul>
+           <li>
+               <label >+86</label>
+               <input type="tel" id="telephone" name="telephone" value="" required pattern="[0-9]{11}" title="请输入正确的手机号"  placeholder="手机号" maxlength="11"/>
+           </li>
+           <li>
+               <input type="text"  id="code" name="code" value="" placeholder="短信验证码"  required pattern="[0-9]{4}" title="请输入正确验证码" maxlength="4" style="text-indent: 10px"/>
+               <span >获取验证码</span>
+           </li>
+           <li>
+               <input id="pwd1" type="password"  name="password" value="" placeholder="输入密码" maxlength="12"/>
+           </li>
+           <li>
+               <input id="pwd2" type="password"  name="confimPassword" value="" placeholder="确认密码" maxlength="12"/>
+           </li>
+       </ul>
+           <button type="submit" id="sub">下一步</button>
+   </form>
+</div>
+    <div id="checkbox">
+        <input class="checkbox" type="checkbox"  value="" checked="checked"/>
+        <label >我已同意用户协议</label>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-slide.js"></script>
+<script type="text/javascript" src="../jquery-3.0.0.min.js"></script>
+<script>
+    function confimInfo() {
+        var input = document.getElementsByTagName("input");
+        var pass1 = document.getElementById("pwd1").value;
+        var pass2 = document.getElementById("pwd2").value;
+        var sub=document.getElementById("confimInfo");
+        alert(input.length)
+        for(var i=0;i<input.length;i++){
+            if(input[i].value==""){
+                alert("不能有空值");
+                input[i].focus();
+                return false;
+            }else if(pass1=="" || pass2==""){
+                alert("密码不能为空");
+                return false;
+            }else if(pass1!=pass2){
+                alert("密码不一致");
+                return false;
+            }else{
+                sub.submit();
+                return true;
+            }
+        }
+
+    }
+</script>
+</html>

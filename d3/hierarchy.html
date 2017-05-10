@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script type="text/javascript" src="d3v4/d3.js"></script>
+<script type="text/javascript">
+var datajson = {
+  "name": "Eve",
+  "children": [
+    {
+      "name": "Cain"
+    },
+    {
+      "name": "Seth",
+      "children": [
+        {
+          "name": "Enos"
+        },
+        {
+          "name": "Noam"
+        }
+      ]
+    },
+    {
+      "name": "Abel"
+    },
+    {
+      "name": "Awan",
+      "children": [
+        {
+          "name": "Enoch"
+        }
+      ]
+    },
+    {
+      "name": "Azura"
+    }
+  ]
+}
+var datastr = [
+  {"name": "Eve",   "parent": ""},
+  {"name": "Cain",  "parent": "Eve"},
+  {"name": "Seth",  "parent": "Eve"},
+  {"name": "Enos",  "parent": "Seth"},
+  {"name": "Noam",  "parent": "Seth"},
+  {"name": "Abel",  "parent": "Eve"},
+  {"name": "Awan",  "parent": "Eve"},
+  {"name": "Enoch", "parent": "Awan"},
+  {"name": "Azura", "parent": "Eve"}
+]
+var datahi = d3.hierarchy(datajson);
+
+var stratify = d3.stratify()
+				.id(function(d) {
+					return d.name;
+				})
+				.parentId(function (d) {
+					// body...
+					return d.parent;
+				})
+
+var datastr = stratify(datastr);
+
+console.log("datajson datahi datastr", datajson, datahi, datastr);
+
+</script>
+</body>
+</html>

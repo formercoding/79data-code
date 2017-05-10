@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8"/>
+	<title>chapter22</title>
+	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" src="angular-animate.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script> -->
+	<style type="text/css">
+		.fade-in {
+			transition: 2s linear all;
+			-moz-transition: 2s linear all;
+		}
+		.fade-in:hover {
+			width: 300px;
+			height: 300px;
+			background: red;
+		}
+		.fade-in.ng-enter {
+			opacity: 0;
+			color: green;
+		}
+		.fade-in.ng-enter.ng-enter-active {
+			opacity: 1;
+			color: black;
+		}
+		.fade-in.ng-leave {
+			opacity: 0;
+		}
+		.fade-in.ng-leave.ng-leave-active {
+			opacity: 0;
+		}
+		.animate-switch.ng-enter,
+		.animate-switch.ng-leave {
+			transition: 2s linear all;
+			-webkit-transition: 2s linear all;
+		}
+		.animateMe.grown-add,
+		.animateMe.grown-remove {
+			transition: 2s linear all;
+			-webkit-transition: 2s linear all;
+		}
+		.grown {
+			font-size: 50px;
+		}
+		.animateMe.grown-add {
+			font-size: 16px;
+		}
+		.animateMe.grown-add.grown-add-active {
+			font-size: 50px;
+		}
+		.animateMe.grown-remove.grown-remove-active {
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+	<div ng-controller="myController">
+		<ul>
+			<li class="fade-in" ng-repeat="r in roommates">
+				{{ r }}
+			</li>
+		</ul>
+		<button ng-click="template='home'">home</button>
+		<button ng-click="template='second'">second</button>
+		<button ng-click="template='third'">third</button>
+		<div ng-switch on="template">
+			<div class="animate-switch" ng-switch-when="home">
+				<h1>home</h1>
+			</div>
+			<div class="animate-switch" ng-switch-when="second">
+				<h1>second</h1>
+			</div>
+			<div class="animate-switch" ng-switch-when="third">
+				<h1>third</h1>
+			</div>
+		</div>
+		<div ng-init="grow=false">
+			<button ng-click="grow=!grow">grow</button>
+			<div ng-class="{grown:grow}" class="animateMe">
+				<h2>grow me</h2>				
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	angular.module("app", ["ngAnimate"])
+	.controller("myController", function($scope) {
+		$scope.roommates = [
+			"ari", "q", "sean", "anand"
+		];
+		setTimeout(function() {
+			$scope.roommates.push("ginger");
+			$scope.$apply(); // 触发digest
+
+			setTimeout(function() {
+				$scope.roommates.shift();
+				$scope.$apply();
+			}, 2000);
+		}, 1000);
+	})
+	.animation(".fade-in", function() {
+		return {
+			enter: function(element, done) {
+				var op = 0, timeout,
+				animateFn = function() {
+					op +=10;
+					element.css("opacity", op/100);
+					if (op >= 100) {
+						clearInterval(timeout);
+						done();
+					}
+				};
+				element.css("opacity", 0);
+				timeout = setInterval(animateFn, 100);
+			},
+			leave: function(element, done) {
+				var op = 0, timeout,
+				animateFn = function() {
+					op += 10;
+					element.css("opacity", op/100);
+					if (op <= 0) {
+						clearInterval(timeout);
+						done();
+					}
+				};
+				element.css("opacity", 100);
+				timeout = setInterval(animateFn, 100);
+			}
+		}
+	});
+
+</script>
+</html>

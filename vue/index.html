@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div id="app">
+	<input type="text" v-model="newItem" name="">
+	<button type="button" v-on:click="addItem()">add this item</button>
+	<div>{{newItem}}</div>
+	<div>{{{mustache}}}</div>
+	<ul v-for="item in items">
+		<li v-bind:class="class">
+			<span item="item">{{item}}</span>
+			<button type="button" v-on:click="removeItem($index)">
+				remove this item
+			</button>
+		</li>
+	</ul>
+	<h1>----------------------------------------------</h1>
+	<p v-if="ok">ok</p>
+	<p v-else>no</p>
+	<p v-else>no 2</p>
+	<ul>
+		<li v-for="(key, item) in items" track-by="uu_id">
+			{{$index}} {{key}} : {{item.text}}
+		</li>
+	</ul>
+	<ul>
+		<li v-for="n in 20">
+			I am {{n}}
+		</li>
+	</ul>
+	<h1>------------------------------组件---------------------------</h1>
+
+	<parent-component>
+	</parent-component>
+	<h2>-----------------</h2>
+	<table>
+		<tr is="parent-component">
+		</tr>
+	</table>
+	<h2>----------------父子组件通信-------------</h2>
+	<!-- 子组件模板 -->
+	<input type="text" v-model="newItems" value="new">
+	<template id="child-template">
+		<p>items: {{items}} msg: {{msg}} item2{{item2}}</p>
+		<input type="text" v-model="msg" name="">
+		<button v-on:click="notify">dispatch event</button>
+	</template>
+	<template id="parent-template">
+		<p>I am in parent !</p>
+		<my-component></my-component>
+	</template>
+	<!-- 父组件模板 -->
+	<p>message: {{message | json}}</p>
+	<child v-bind:items="newItems" v-on:child-msg="handleIt"></child>
+	<h1>-------------------------</h1>
+	<async></async>
+	<h1>-----------------------$set---------</h1>
+	<h2>a:{{a}}</h2>
+	<h2>b:{{b}}</h2>
+	<h1>--------------------my-directive---------------</h1>
+	<input type="text" v-model="value" name="">
+	<div v-my-directive="value" a="aa" b="bb">
+	</div>
+	<element></element>
+	<h1>-------------filter-----------------</h1>
+	<p>{{"I am reverse" | reverse}}</p>
+	<input type="text" name="" v-model="dollars">
+	<p>{{dollars |　currency "params"}}</p>
+	<h1>-------------混合--------------</h1>
+	<component-d></component-d>
+</div>
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<style>
+.wrap {
+  margin: 0 auto;
+}
+svg {
+  width: 100%;
+  height: 1100px;
+}
+.node circle {
+  fill: #999;
+}
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.node--internal circle {
+  fill: #555;
+}
+
+.node--internal text {
+  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+
+.link {
+  fill: none;
+  stroke: #555;
+  stroke-opacity: 0.4;
+  stroke-width: 1.5px;
+  stroke-width: 2px;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <svg></svg>
+</div>
+<script src="d3v4/d3.js"></script>
+<script>
+  var data0 = {
+  "name": "Eve",
+  "children": [
+    {
+      "name": "Cain"
+    },
+    {
+      "name": "Seth",
+      "children": [
+        {
+          "name": "Enos"
+        },
+        {
+          "name": "Noam"
+        }
+      ]
+    },
+    {
+      "name": "Abel"
+    },
+    {
+      "name": "Awan",
+      "children": [
+        {
+          "name": "Enoch"
+        }
+      ]
+    },
+    {
+      "name": "Azura"
+    }
+  ]
+}
+
+  var datas = [
+  {"name": "Eve",   "parent": ""},
+  {"name": "Cain",  "parent": "Eve"},
+  {"name": "Seth",  "parent": "Eve"},
+  {"name": "Enos",  "parent": "Seth"},
+  {"name": "Noam",  "parent": "Seth"},
+  {"name": "Abel",  "parent": "Eve"},
+  {"name": "Awan",  "parent": "Eve"},
+  {"name": "Enoch", "parent": "Awan"},
+  {"name": "Azura", "parent": "Eve"}
+]
+
+/**  demo
+  var root = d3.hierarchy(data0, function (d) {
+        // body...
+        return d.children;
+      });
+  console.log(root);
+
+  var stratify = d3.stratify().id(function(d) {
+    return d.name;
+  }).parentId(function(d) {
+    return d.parent;
+  })(data);
+  console.log(stratify);
+
+  var cluster = d3.cluster()(root);
+  console.log(cluster);
+
+  var cluster = d3.tree()(root);
+  console.log(cluster);
+*/
+function collapse(d) {
+        if (d.children) {
+          d._children = d.children;
+          d._children.forEach(collapse);
+          d.children = null;
+        }
+}
+function project(x, y) {
+    var angle = x * Math.PI * 2 , radius = y * 500;
+      return [600 + radius * Math.cos(angle), 510 + radius * Math.sin(angle)];
+}
+var cluster = d3.cluster();
+var stratify = d3.stratify()
+                 .parentId(function(d) {
+                    return d.id.substring(0, d.id.lastIndexOf("."));
+                 })
+d3.csv("relative.csv", function(error, data) {
+      var root = stratify(data).sort(function(a, b) { 
+                    return a.height - b.height || a.id.localeCompare(b.id); 
+                 });
+      //root.children.forEach(collapse);
+      console.log("未绑定的数据", d3.select("svg").data(root.descendants()).enter())
+      cluster(root);
+      console.log(root);
+      function click(d) {
+          if (d.children) {
+            d._children = d.children;
+            d.children = null;
+          } else {
+            d.children = d._children;
+            d._children = null;
+          }
+          console.log("ddddddddddddddddd", d);
+          update(d);
+      }
+      function update(source) {
+        d3.selectAll(".node")
+                .remove();
+                d3.selectAll(".link")
+                .remove();
+                d3.selectAll(".text")
+                .remove();
+        console.log("root", root);
+        console.log("source", source);
+        var link = d3.select("svg")
+             .append("g")
+             .selectAll("path.link")
+             .data(root.descendants().slice(1))
+             .enter()
+             .append("path")
+             .attr("class", "link")
+             .attr("d", function(d) {
+                return "M" + project(d.x, d.y)
+                  + "C" + project(d.x, (d.y + d.parent.y) / 2)
+                  + " " + project(d.parent.x, (d.y + d.parent.y) / 2)
+                  + " " + project(d.parent.x, d.parent.y);
+              });
+        console.log(d3.select("g"), root.descendants());
+        var node = d3.select("g").selectAll(".node")
+                    .data(root.descendants())
+                    .enter()
+                    .append("circle")
+                    .attr("class", "node")
+                    .attr("transform", function(d) {
+                      return "translate(" + project(d.x, d.y) + ")";
+                    })
+                    .attr("r", 10)
+                    .on("click", function(d) {
+                      click(d);
+                    });
+
+            var text = d3.select("g").selectAll(".text")
+                    .data(root.descendants())
+                    .enter()
+                    .append("text")
+                    .attr("class", "text")
+                    .attr("transform", function(d) {
+                      console.log("rotate", d.x * Math.PI * 2);
+                      return "translate(" + project(d.x, d.y) + ")rotate(" + d.x * 360 + ")";
+                    })
+                    .text(function(d) { return d.id.substring(d.id.lastIndexOf(".") + 1);})
+          d3.select("svg")
+             .append("g")
+             .selectAll("path.link")
+             .data(root.descendants().slice(1))
+             .enter()
+             .append("path")
+             .attr("class", "link")
+             .attr("d", function(d) {
+                return "M" + project(d.x, d.y)
+                  + "C" + project(d.x, (d.y + d.parent.y) / 2)
+                  + " " + project(d.parent.x, (d.y + d.parent.y) / 2)
+                  + " " + project(d.parent.x, d.parent.y);
+              });
+             
+        }
+
+      update(root);
+      console.log("交集", d3.select("svg").data(root.descendants()));
+      console.log("未绑定的数据", d3.select("svg").data(root.descendants()).enter())
+
+
+
+  
+});
+</script> 
+</body>
+</html>

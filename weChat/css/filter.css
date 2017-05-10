@@ -1,0 +1,61 @@
+.detail-search {
+	background:url("../image/首页背景.jpg") no-repeat;
+	margin-top: 50px;
+	background-size: cover;
+	overflow: hidden;
+	padding-top: 16px;
+
+}
+.detail-search input {
+	width: 80%;
+	display: block;
+	margin: 0 auto;
+	height: 30px;
+	outline: none;
+	border: 2px solid #dedede;
+	border-radius: 5px;
+	padding-left: 10px;
+	padding-right: 40px;
+	margin-bottom: -4px;
+	font-size: 14px;
+	color: #666;
+}
+.detail-search .search {
+	position: relative;
+	top: -22px;
+	left: 90%;
+	font-size: 20px;
+	color: #7f7f7f;
+	line-height: 12px;
+}
+ul {
+	font-size: 0;
+}
+.switcher li {
+	display: inline-block;
+	color: #7f7f7f;
+	width: 25%;
+	font-size: 16px;
+	border-right: 1px solid #d4d4d4;
+	line-height: 46px;
+	text-align: center;
+	border-bottom: 1px solid #e7eef6;
+	background: #fff;
+}
+.switcher li.active {
+	color: #007dfd;
+	border-bottom: 0;
+	background: #f5f5f5;
+}
+.switcher li:last-child {
+	border-right: 0;
+}
+.switcher li i {
+	vertical-align: text-top;
+}
+.switcher-content .content {
+	display: none;
+}
+.switcher-content .content:first-child {
+	display: block;
+}
