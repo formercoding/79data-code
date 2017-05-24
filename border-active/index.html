@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>border active</title> 
+  <style type="text/css">
+    div {
+      width: 50%;
+      height: 500px;
+      margin: 300px auto;
+      text-align: center;
+    }
+    button {
+      position: relative;
+      width: 120px;
+      height: 250px;
+      background: #DD43E9;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      z-index: 30px;
+    }
+    button.active {
+      border: 3px solid red;
+    }
+    .me {
+      display: none;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .me:before {
+      content: "\f00c";
+      position: absolute;
+      right: -2px;
+      bottom: -1px;
+      z-index: 20;
+      color: #fff;
+      font-size: 10px;
+    }
+    .me:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      right: -7px;
+      bottom: -2px;
+      width: 0;
+      height: 0;
+      border-top: 10px solid red;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 0px solid transparent;
+      transform: rotate(-45deg);
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+</head>
+<body>
+<div>
+  <button id="btn"><span class="me"></span>点我哟！</button>
+</div>
+<script type="text/javascript">
+  document.getElementById('btn').onclick = function (e) {
+    if (document.getElementById('btn').className != 'active') {
+      document.getElementById('btn').className = 'active';
+      document.getElementsByClassName('me')[0].style.display = 'inline-block';
+    } else {
+      document.getElementById('btn').className = '';
+      document.getElementsByClassName('me')[0].style.display = 'none';
+    }
+    
+  }
+</script>
+
+</body>
+</html>

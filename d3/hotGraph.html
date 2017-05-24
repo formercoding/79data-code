@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>hot graph</title>
+  <meta charset="utf-8">
+  <style>
+
+    .states :hover {
+        fill: red;
+        stroke-width: 2px;
+    }
+
+    .state-borders {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 0.5px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<svg width="1200" height="800" style="border:1px gainsboro solid"></svg>
+<script src="d3v4/d3.js"></script>
+
+<script>
+
+
+
+
+    var svg = d3.select("svg"),
+            width = svg.attr("width"),
+            height = svg.attr("height");
+
+    var projection = d3.geoMercator()
+            .center([107, 31])
+            .scale(950)
+            .translate([width/2, height/2+height/6])
+    var path = d3.geoPath()
+            .projection(projection);
+
+
+    var color = d3.scaleLinear().domain([10, 100]).range([0, 1]);
+    d3.json("china.json", function(error, us) {
+        if (error) throw error;
+
+        svg.append("g")
+                .attr("class", "states")
+                .selectAll("path")
+//                .data(topojson.feature(us, us.objects.states).features)
+                .data(us.features)
+                .enter().append("path")
+                .attr('stroke','white')
+                .attr('fill','lightgray')
+                .attr('fill', function(d, i) {
+                  return "rgba(255, 0, 0," + color(d.properties.id) + ")";
+                })
+                .attr("d", path)
+                .append('title')
+                .text(function(d){
+                    a=d
+                    return d.properties.name
+                });
+
+        /*svg.append("path")
+                .attr("class", "state-borders")
+                .attr("d", path(topojson.mesh(us, us, function(a, b) { return a !== b; })));
+
+        a={"value":[{"BusStopCode":"01012","RoadName":"Victoria St","Description":"Hotel Grand Pacific","Latitude":29.160752671000068,"Longitude":113.56942793100006 }]}*/
+        /*svg.selectAll("circle")
+                .data(a.value).enter().append("circle")
+                .attr('stroke','red')
+                .attr('fill', function(d) {
+                  //return "rgba(255, 0, 0," + color(d.properties.id) + ")";
+                  return 'blue';
+                })
+                .attr("d", path)
+                .attr("r", 2)
+                .attr("transform", function(d) {
+                    return "translate(" + projection([
+                                d.Longitude,
+                                d.Latitude
+                            ]) + ")";
+                })
+                .append('title')
+                .text(function(d){
+                    a=d
+                    return d.BusStopCode
+                });*/
+    });
+
+
+
+
+
+</script>
+</body>
+</html>

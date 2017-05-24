@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+  line {
+    stroke: black;
+    fill: black;
+  }
+</style>
+</head>
+<body>
+<svg width="960" height="1060">
+</svg>
+<script src="d3v4/d3.js"></script>
+<script type="text/javascript">
+    var axisLeft = d3.axisLeft(d3.scaleLinear()
+    .domain([10, 20])
+    .range([0, 300])); // 这里是定义坐标轴的比例尺 具体看scale怎么用
+    var axisBottom = d3.axisTop(d3.scaleLinear()
+    .domain([10, 20])
+    .range([0, 300]));
+    // 下面是添加坐标轴
+    d3.select("svg")
+        .attr("width", 1440)
+        .attr("height", 1030)
+        .append("g")
+        .attr("transform", "translate(500,300)")
+        .call(axisLeft);
+    d3.select("svg")
+        .append("g")
+        .attr('class', 'g')
+        .attr("transform", "translate(500,600)")
+        .call(axisBottom);
+    // 这里就是找到坐标轴的每一个刻度加上图片了，如果不加图片的话就append g节点 具体里面还需要你自己按需求话
+    d3.select('g').selectAll('.tick').append('image')
+      .attr('width', 50)
+      .attr('height', 20)
+      .attr('links:href', 'tick.jpg')
+      .attr("transform", "translate(-50,-10)") // 最后平移一下就可以了
+</script>
+</body>
+</html>
