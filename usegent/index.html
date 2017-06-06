@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>xx</title>
+  <style type="text/css">
+    p {
+      text-overflow: ellipsis;
+      white-space:nowrap;
+      width: 100px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <p>sdsdssssssssssssssssssssd</p>
+<script type="text/javascript">
+function getBrowser() {  
+    var ua = window.navigator.userAgent;  
+    var isIE = window.ActiveXObject != undefined && ua.indexOf("MSIE") != -1;  
+    var isFirefox = ua.indexOf("Firefox") != -1;  
+    var isOpera = window.opr != undefined;  
+    var isChrome = ua.indexOf("Chrome") && window.chrome;  
+    var isSafari = ua.indexOf("Safari") != -1 && ua.indexOf("Version") != -1;  
+    if (isIE) {  
+        return "IE";  
+    } else if (isFirefox) {  
+        return "Firefox";  
+    } else if (isOpera) {  
+        return "Opera";  
+    } else if (isChrome) {  
+        return "Chrome";  
+    } else if (isSafari) {  
+        return "Safari";  
+    } else {  
+        return "Unkown";  
+    }  
+}
+console.log(getBrowser())    
+</script>
+</body>
+</html>
